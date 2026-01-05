@@ -17,6 +17,7 @@ import {
   Activity,
   Heart,
   BookOpen,
+  HelpCircle,
   Coffee,
   Dumbbell,
   Droplets,
@@ -198,7 +199,7 @@ export default function App() {
   const { habits, logs, addHabit, deleteHabit, toggleLog, addCustomLog, syncStatus, loading: dataLoading } = useDataManager(user?.uid);
   const { permission, requestPermission, toasts } = useNotifications(habits, logs, t);
 
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'stats' | 'settings'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'stats' | 'settings' | 'howto'>('dashboard');
   const [dashboardView, setDashboardView] = useState<'list' | 'calendar'>('list');
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [calendarFilter, setCalendarFilter] = useState<string | 'all'>('all');
@@ -211,6 +212,7 @@ export default function App() {
   const [habitToDelete, setHabitToDelete] = useState<Habit | null>(null);
   const [editingHabitId, setEditingHabitId] = useState<string | null>(null);
   const [isRetroModalOpen, setIsRetroModalOpen] = useState(false);
+  const [isHowToModalOpen, setIsHowToModalOpen] = useState(false);
   
   const [newHabitName, setNewHabitName] = useState('');
   const [newHabitColor, setNewHabitColor] = useState('#3b82f6');
@@ -446,6 +448,7 @@ export default function App() {
           <NavItem id="dashboard" icon={LayoutDashboard} label={t('dashboard')} activeTab={activeTab} onClick={setActiveTab} />
           <NavItem id="stats" icon={BarChart3} label={t('stats')} activeTab={activeTab} onClick={setActiveTab} />
           <NavItem id="settings" icon={Settings} label={t('settings')} activeTab={activeTab} onClick={setActiveTab} />
+          <NavItem id="howto" icon={HelpCircle} label={t('howTo')} activeTab={activeTab} onClick={setActiveTab} />
         </nav>
         <button onClick={logout} className="mt-auto flex items-center justify-center gap-2 bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 py-3 rounded-2xl text-sm font-bold transition-colors">
           <LogOut className="w-4 h-4" />{t('signOut')}
@@ -681,12 +684,38 @@ export default function App() {
             <div className="pt-10"><button onClick={logout} className="w-full flex items-center justify-center gap-2 bg-zinc-200/50 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 py-4 rounded-3xl text-sm font-black hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/10 transition-all"><LogOut className="w-4 h-4" />{t('signOut')}</button></div>
           </div>
         )}
+
+        {activeTab === 'howto' && (
+          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-4xl font-black tracking-tight">{t('howTo')}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[1, 2, 3, 4].map((step) => (
+                <div key={step} className="bg-white dark:bg-zinc-900 p-8 rounded-[32px] border border-zinc-100 dark:border-zinc-800 shadow-sm space-y-4">
+                  <div className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center font-black text-xl">
+                    {step}
+                  </div>
+                  <h3 className="text-xl font-black">{t(`howToStep${step}` as any)}</h3>
+                  <p className="text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed">
+                    {t(`howToStep${step}Desc` as any)}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <button
+              onClick={() => setActiveTab('dashboard')}
+              className="w-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 py-5 rounded-[28px] font-black text-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
+            >
+              {t('gotIt')}
+            </button>
+          </div>
+        )}
       </main>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-800 px-6 py-4 flex justify-between items-center z-40 pb-10">
         <NavItem id="dashboard" icon={LayoutDashboard} label={t('dashboard')} activeTab={activeTab} onClick={setActiveTab} />
         <NavItem id="stats" icon={BarChart3} label={t('stats')} activeTab={activeTab} onClick={setActiveTab} />
         <NavItem id="settings" icon={Settings} label={t('settings')} activeTab={activeTab} onClick={setActiveTab} />
+        <NavItem id="howto" icon={HelpCircle} label={t('howTo')} activeTab={activeTab} onClick={setActiveTab} />
       </nav>
 
       <Modal isOpen={isHabitModalOpen} onClose={() => setIsHabitModalOpen(false)}>

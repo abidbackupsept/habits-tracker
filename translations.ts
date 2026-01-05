@@ -86,7 +86,18 @@ export const TRANSLATIONS: Record<LangCode, Record<string, string>> = {
     trustedDevice: "Trusted Device Detection",
     ipLabel: "Current IP Address",
     secureSession: "Secure Session Active",
-    identityVerified: "Identity Verified"
+    identityVerified: "Identity Verified",
+    howTo: "How To Use",
+    howToTitle: "Welcome to HabitFlow",
+    howToStep1: "Add Habit",
+    howToStep1Desc: "Click the '+' button to add a new habit you want to build.",
+    howToStep2: "Track Daily",
+    howToStep2Desc: "Check the circle when you complete a habit for the day.",
+    howToStep3: "Analyze Progress",
+    howToStep3Desc: "Check the statistics tab to see your streaks and consistency.",
+    howToStep4: "Stay Consistent",
+    howToStep4Desc: "Build long streaks and turn your actions into automatic habits.",
+    gotIt: "Got It!"
   },
   id: {
     dashboard: "Dasbor",
@@ -172,6 +183,17 @@ export const TRANSLATIONS: Record<LangCode, Record<string, string>> = {
     trustedDevice: "Deteksi Perangkat Terpercaya",
     ipLabel: "Alamat IP Saat Ini",
     secureSession: "Sesi Aman Aktif",
-    identityVerified: "Identitas Terverifikasi"
+    identityVerified: "Identitas Terverifikasi",
+    howTo: "Cara Penggunaan",
+    howToTitle: "Selamat Datang di HabitFlow",
+    howToStep1: "Tambah Kebiasaan",
+    howToStep1Desc: "Klik tombol '+' untuk menambah kebiasaan baru yang ingin Anda bangun.",
+    howToStep2: "Catat Harian",
+    howToStep2Desc: "Centang lingkaran setelah Anda menyelesaikan kebiasaan hari ini.",
+    howToStep3: "Pantau Progres",
+    howToStep3Desc: "Lihat tab statistik untuk melihat runtun (streak) dan konsistensi Anda.",
+    howToStep4: "Tetap Konsisten",
+    howToStep4Desc: "Bangun runtun panjang dan ubah tindakan menjadi kebiasaan otomatis.",
+    gotIt: "Mengerti!"
   }
 };
