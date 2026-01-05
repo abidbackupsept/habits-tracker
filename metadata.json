@@ -1,0 +1,8 @@
+
+{
+  "name": "HabitFlow",
+  "description": "A robust, responsive habit tracker with multilingual support, analytics, and browser notifications.",
+  "requestFramePermissions": [
+    "notifications"
+  ]
+}
