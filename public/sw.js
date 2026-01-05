@@ -3,6 +3,7 @@ const CACHE_NAME = 'habitflow-v1';
 const ASSETS = [
   '/',
   '/index.html',
+  '/index.tsx',
   '/manifest.json'
 ];
 

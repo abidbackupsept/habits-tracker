@@ -17,7 +17,6 @@ import {
   Activity,
   Heart,
   BookOpen,
-  HelpCircle,
   Coffee,
   Dumbbell,
   Droplets,
@@ -47,7 +46,9 @@ import {
   Shield,
   Lock,
   Wifi,
-  Key
+  Key,
+  HelpCircle,
+  Info
 } from 'lucide-react';
 import { 
   BarChart, 
@@ -199,7 +200,7 @@ export default function App() {
   const { habits, logs, addHabit, deleteHabit, toggleLog, addCustomLog, syncStatus, loading: dataLoading } = useDataManager(user?.uid);
   const { permission, requestPermission, toasts } = useNotifications(habits, logs, t);
 
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'stats' | 'settings' | 'howto'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'stats' | 'help' | 'settings'>('dashboard');
   const [dashboardView, setDashboardView] = useState<'list' | 'calendar'>('list');
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [calendarFilter, setCalendarFilter] = useState<string | 'all'>('all');
@@ -212,7 +213,6 @@ export default function App() {
   const [habitToDelete, setHabitToDelete] = useState<Habit | null>(null);
   const [editingHabitId, setEditingHabitId] = useState<string | null>(null);
   const [isRetroModalOpen, setIsRetroModalOpen] = useState(false);
-  const [isHowToModalOpen, setIsHowToModalOpen] = useState(false);
   
   const [newHabitName, setNewHabitName] = useState('');
   const [newHabitColor, setNewHabitColor] = useState('#3b82f6');
@@ -401,7 +401,7 @@ export default function App() {
     return (
       <div className="min-h-screen bg-white dark:bg-zinc-950 flex flex-col items-center justify-center p-6 text-center">
         <Activity className="w-20 h-20 text-zinc-900 dark:text-zinc-100 mb-6" />
-        <h1 className="text-4xl font-black tracking-tighter mb-4">HabitFlow</h1>
+        <h1 className="text-4xl text-purple-500 font-black tracking-tighter mb-4">HabitFlow</h1>
         <button onClick={loginGoogle} className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 py-4 px-8 rounded-3xl font-black shadow-xl">{t('signInGoogle')}</button>
       </div>
     );
@@ -447,8 +447,8 @@ export default function App() {
         <nav className="flex-1 space-y-3">
           <NavItem id="dashboard" icon={LayoutDashboard} label={t('dashboard')} activeTab={activeTab} onClick={setActiveTab} />
           <NavItem id="stats" icon={BarChart3} label={t('stats')} activeTab={activeTab} onClick={setActiveTab} />
+          <NavItem id="help" icon={HelpCircle} label={t('help')} activeTab={activeTab} onClick={setActiveTab} />
           <NavItem id="settings" icon={Settings} label={t('settings')} activeTab={activeTab} onClick={setActiveTab} />
-          <NavItem id="howto" icon={HelpCircle} label={t('howTo')} activeTab={activeTab} onClick={setActiveTab} />
         </nav>
         <button onClick={logout} className="mt-auto flex items-center justify-center gap-2 bg-red-50 dark:bg-red-900/10 text-red-600 dark:text-red-400 py-3 rounded-2xl text-sm font-bold transition-colors">
           <LogOut className="w-4 h-4" />{t('signOut')}
@@ -626,6 +626,43 @@ export default function App() {
           </div>
         )}
 
+        {activeTab === 'help' && (
+          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <h2 className="text-4xl font-black tracking-tight">{t('help')}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[
+                { title: 'help_step1_title', desc: 'help_step1_desc', icon: Plus, color: 'bg-blue-500' },
+                { title: 'help_step2_title', desc: 'help_step2_desc', icon: Check, color: 'bg-green-500' },
+                { title: 'help_step3_title', desc: 'help_step3_desc', icon: Clock, color: 'bg-amber-500' },
+                { title: 'help_step4_title', desc: 'help_step4_desc', icon: BarChart3, color: 'bg-purple-500' },
+                { title: 'help_step5_title', desc: 'help_step5_desc', icon: Bell, color: 'bg-red-500' },
+              ].map((step, idx) => {
+                const StepIcon = step.icon;
+                return (
+                  <div key={idx} className="bg-white dark:bg-zinc-900 p-8 rounded-[40px] border border-zinc-100 dark:border-zinc-800 shadow-sm flex items-start gap-6 group hover:shadow-xl transition-all duration-300">
+                    <div className={`w-14 h-14 shrink-0 rounded-[22px] flex items-center justify-center text-white shadow-lg ${step.color} group-hover:scale-110 transition-transform duration-300`}>
+                      <StepIcon className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h4 className="text-xl font-black mb-2 tracking-tight">{t(step.title)}</h4>
+                      <p className="text-sm font-medium text-zinc-500 dark:text-zinc-400 leading-relaxed">
+                        {t(step.desc)}
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+              
+              <div className="bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 p-8 rounded-[40px] flex flex-col items-center justify-center text-center space-y-4">
+                <Sparkles className="w-12 h-12 text-amber-400" />
+                <h4 className="text-2xl font-black tracking-tighter">Ready to Flow?</h4>
+                <p className="text-sm font-bold opacity-80 max-w-[240px]">Small steps lead to massive changes. Start tracking today.</p>
+                <button onClick={() => setActiveTab('dashboard')} className="bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 px-8 py-3 rounded-full font-black text-sm hover:scale-105 active:scale-95 transition-all">Go to Dashboard</button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {activeTab === 'settings' && (
           <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <h2 className="text-4xl font-black tracking-tight">{t('settings')}</h2>
@@ -684,38 +721,13 @@ export default function App() {
             <div className="pt-10"><button onClick={logout} className="w-full flex items-center justify-center gap-2 bg-zinc-200/50 dark:bg-zinc-800 text-zinc-500 dark:text-zinc-400 py-4 rounded-3xl text-sm font-black hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/10 transition-all"><LogOut className="w-4 h-4" />{t('signOut')}</button></div>
           </div>
         )}
-
-        {activeTab === 'howto' && (
-          <div className="space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
-            <h2 className="text-4xl font-black tracking-tight">{t('howTo')}</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {[1, 2, 3, 4].map((step) => (
-                <div key={step} className="bg-white dark:bg-zinc-900 p-8 rounded-[32px] border border-zinc-100 dark:border-zinc-800 shadow-sm space-y-4">
-                  <div className="w-12 h-12 bg-blue-500/10 text-blue-500 rounded-2xl flex items-center justify-center font-black text-xl">
-                    {step}
-                  </div>
-                  <h3 className="text-xl font-black">{t(`howToStep${step}` as any)}</h3>
-                  <p className="text-zinc-500 dark:text-zinc-400 font-medium leading-relaxed">
-                    {t(`howToStep${step}Desc` as any)}
-                  </p>
-                </div>
-              ))}
-            </div>
-            <button
-              onClick={() => setActiveTab('dashboard')}
-              className="w-full bg-zinc-900 dark:bg-zinc-100 text-white dark:text-zinc-900 py-5 rounded-[28px] font-black text-lg shadow-xl hover:scale-[1.02] active:scale-95 transition-all"
-            >
-              {t('gotIt')}
-            </button>
-          </div>
-        )}
       </main>
 
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-xl border-t border-zinc-100 dark:border-zinc-800 px-6 py-4 flex justify-between items-center z-40 pb-10">
         <NavItem id="dashboard" icon={LayoutDashboard} label={t('dashboard')} activeTab={activeTab} onClick={setActiveTab} />
         <NavItem id="stats" icon={BarChart3} label={t('stats')} activeTab={activeTab} onClick={setActiveTab} />
+        <NavItem id="help" icon={HelpCircle} label={t('help')} activeTab={activeTab} onClick={setActiveTab} />
         <NavItem id="settings" icon={Settings} label={t('settings')} activeTab={activeTab} onClick={setActiveTab} />
-        <NavItem id="howto" icon={HelpCircle} label={t('howTo')} activeTab={activeTab} onClick={setActiveTab} />
       </nav>
 
       <Modal isOpen={isHabitModalOpen} onClose={() => setIsHabitModalOpen(false)}>
