@@ -25,7 +25,7 @@ import { Habit, Log, LangCode, SyncStatus } from './types';
 import { TRANSLATIONS } from './translations';
 
 // --- CONFIG SEPARATED FOR EASY EDITING ---
-export const APP_PASSWORD = "081234";
+export const APP_PASSWORD = "081234567";
 // -----------------------------------------
 
 const IS_DEV = false; 
